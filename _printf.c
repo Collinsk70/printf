@@ -8,15 +8,47 @@
  *
  * @c: The character to be written.
  * Return: On success, returns the number of characters written.
- * On error, returns -1 and sets errno appropriately.
+ *         On error, returns -1 and sets errno appropriately.
  */
 static int _putchar(char c)
 {
-    return write(1, &c, 1);
+	return (write(1, &c, 1));
 }
 
 /**
- * _printf - Custom printf function supporting %c, %s, and %% conversion specifiers.
+ * _print_char - Helper function to print a single character.
+ *
+ * @args: The va_list containing the character to be printed.
+ * Return: The number of characters successfully printed.
+ */
+static int _print_char(va_list args)
+{
+	return (_putchar(va_arg(args, int)));
+}
+
+/**
+ * _print_string - Helper function to print a string.
+ *
+ * @args: The va_list containing the string to be printed.
+ * Return: The number of characters successfully printed.
+ */
+static int _print_string(va_list args)
+{
+	char *str = va_arg(args, char *);
+
+	if (str == NULL)
+		str = "(null)";
+
+	int count = 0;
+
+	while (*str)
+		count += _putchar(*str++);
+
+	return (count);
+}
+
+/**
+ * _printf - Custom printf function supporting %c, %s
  *
  * @format: A pointer to a string containing the format specifier and optional
  *          text to be printed.
@@ -28,43 +60,43 @@ static int _putchar(char c)
  */
 int _printf(const char *format, ...)
 {
-    int count = 0;
-    va_list args;
+	if (format == NULL)
+		return (-1);
 
-    if (format == NULL)
-        return -1;
+	int count = 0;
+	va_list args;
 
-    va_start(args, format);
+	va_start(args, format);
 
-    while (*format)
-    {
-        if (*format == '%')
-        {
-            format++; // Move past '%'
-            switch (*format)
-            {
-                case 'c':
-                    count += print_char(args);
-                    break;
-                case 's':
-                    count += print_str(args);
-                    break;
-                case '%':
-                    count += print_percent(args);
-                    break;
-                default:
-                    count += _putchar('%');
-                    count += _putchar(*format);
-            }
-        }
-        else
-        {
-            count += _putchar(*format);
-        }
-        format++;
-    }
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++; /* Move past '%' */
+			switch (*format)
+			{
+				case 'c':
+					count += _print_char(args);
+					break;
+				case 's':
+					count += _print_string(args);
+					break;
+				case '%':
+					count += _putchar('%');
+					break;
+				default:
+					count += _putchar('%');
+					count += _putchar(*format);
+			}
+		}
+		else
+		{
+			count += _putchar(*format);
+		}
+		format++;
+	}
 
-    va_end(args);
-    return count;
+	va_end(args);
+	return (count);
 }
 
