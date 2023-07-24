@@ -1,6 +1,8 @@
 #include <stdarg.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "main.h"
+
 
 /**
  * _printf - Custom printf function
