@@ -1,80 +1,57 @@
 #include "main.h"
 
 /**
- * handle_print - Handles printing of an argument based on its type.
- * @format: Formatted string containing the arguments.
- * @args_list: List of arguments to be printed.
- * @ptr_index: Pointer to the current index in the format string.
+ * handle_print - Prints an argument based on its type
+ * @fmt: Formatted string in which to print the arguments.
+ * @ind: ind.
+ * @list: List of arguments to be printed.
  * @buffer: Buffer array to handle print.
- * @flags: Active formatting flags.
- * @width: Width specification.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: Number of characters printed.
+ * @flags: Calculates active flags
+ * @width: get width.
+ * @precision: Precision specification
+ * @size: Size specifier
+ * Return: 1 or 2;
  */
-int handle_print(const char *format, va_list args_list,
-		int *ptr_index, char buffer[],
+int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int type_index, length = 0, result = -1;
-	fmt_t ptr_fmt_types[] = {
-		{'c', print_char}, {'s', print_string}, {'%', print_percent},
-		{'i', print_int}, {'d', print_int}, {'b', print_binary},
-		{'u', print_unsigned}, {'o', print_octal}, {'x', print_hexa},
-		{'X', print_hexa_upper}, {'p', print_pointer}, {'S', print_non_printable},
-		{'r', print_reverse}, {'R', print_rot13string}, {'\0', NULL}
+	int index, unknown_length = 0, chars_printed = -1;
+	fmt_t fmt_types[] = {
+		{'c', print_character},
+		{'s', print_string}, {'%', print_percent},
+		{'i', print_integer},
+		{'d', print_integer},
+		{'b', print_binary},
+		{'u', print_unsigned},
+		{'o', print_octal}, {'x', print_hexa},
+		{'X', print_hexa_upper},
+		{'p', print_ptr}, {'S', print_non_printable_chars},
+		{'r', print_reverse}, {'R', print_rot13_string}, {'\0', NULL}
 	};
+	
+	for (index = 0; fmt_types[index].fmt != '\0'; index++)
+		if (fmt[*ind] == fmt_types[index].fmt)
+			return (fmt_types[index].fn(list, buffer, flags, width, precision, size));
 
-	/* Loop through the format types to find a match */
-	for (type_index = 0; ptr_fmt_types[type_index].fmt != '\0'; type_index++)
+	if (fmt_types[index].fmt == '\0')
 	{
-		if (format[*ptr_index] == ptr_fmt_types[type_index].fmt)
-		{
-			/* Call the corresponding printing function */
-			return (ptr_fmt_types[type_index].fn(args_list, buffer,
-					       flags, width, precision, size));
-		}
-	}
-
-	/* If no matching format specifier is found */
-	if (ptr_fmt_types[type_index].fmt == '\0')
-	{
-		/* Check if the format string is at its end */
-		if (format[*ptr_index] == '\0')
-		{
+		if (fmt[*ind] == '\0')
 			return (-1);
-		}
-
-		/* Print a single '%' character */
-		length += write(1, "%%", 1);
-
-		/* If the previous character in format string is a space */
-		if (format[*ptr_index - 1] == ' ')
-		{
-			length += write(1, " ", 1);
-		}
-		/* If width is specified, handle its case */
+		unknown_length += write(1, "%%", 1);
+		if (fmt[*ind - 1] == ' ')
+			unknown_length += write(1, " ", 1);
 		else if (width)
 		{
-			--(*ptr_index);
-			while (format[*ptr_index] != ' ' && format[*ptr_index] != '%')
-			{
-				--(*ptr_index);
-			}
-
-			if (format[*ptr_index] == ' ')
-			{
-				--(*ptr_index);
-			}
+			--(*ind);
+			while (fmt[*ind] != ' ' && fmt[*ind] != '%')
+				--(*ind);
+			if (fmt[*ind] == ' ')
+				--(*ind);
 			return (1);
 		}
-
-		/* Print the unknown character following '%' */
-		length += write(1, &format[*ptr_index], 1);
-		return (length);
+		unknown_length += write(1, &fmt[*ind], 1);
+		return (unknown_length);
 	}
-
-	return (result);
+	return (chars_printed);
 }
 
