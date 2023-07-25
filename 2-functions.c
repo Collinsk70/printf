@@ -11,7 +11,7 @@
  * @size: Size specifier
  * Return: Number of chars printed.
  */
-int print_ptr(va_list args, char buffer[],
+int print_pointer(va_list args, char buffer[],
 			 int flags, int width, int precision, int size)
 {
 	char extra_char = 0, padding_char = ' ';
@@ -63,7 +63,7 @@ int print_ptr(va_list args, char buffer[],
  * @size: Size specifier
  * Return: Number of characters printed
  */
-int print_non_printable_chars(va_list args, char buffer[],
+int print_non_printable(va_list args, char buffer[],
 							 int flags, int width, int precision, int size)
 {
 	int i = 0, offset = 0;
@@ -103,7 +103,7 @@ int print_non_printable_chars(va_list args, char buffer[],
  * @size: Size specifier
  * Return: Numbers of characters printed
  */
-int print_reversed_string(va_list args, char buffer[],
+int print_reverse(va_list args, char buffer[],
 						  int flags, int width, int precision, int size)
 {
 	char *str;
