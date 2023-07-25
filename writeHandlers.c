@@ -96,7 +96,7 @@ int write_num(int index, char buffer[],
 {
 	int charIndex, paddingStart = 1;
 
-	if (precision == 0 && index == BUFF_SIZE - 2 && 
+	if (precision == 0 && index == BUFF_SIZE - 2 &&
 			buffer[index] == '0' && width == 0)
 		return (0); /* No characters are printed for printf(".0d", 0) */
 	if (precision == 0 && index == BUFF_SIZE - 2 && buffer[index] == '0')
@@ -121,14 +121,14 @@ int write_num(int index, char buffer[],
 		{
 			if (extraCharacter)
 				buffer[--index] = extraCharacter;
-			return (write(1, &buffer[index], length) + write(1, 
+			return (write(1, &buffer[index], length) + write(1,
 						&buffer[1], charIndex - 1));
 		}
 		else if (!(flags & F_MINUS) && paddingChar == ' ')
 		{
 			if (extraCharacter)
 				buffer[--index] = extraCharacter;
-			return (write(1, &buffer[1], charIndex - 1) + write(1, 
+			return (write(1, &buffer[1], charIndex - 1) + write(1,
 						&buffer[index], length));
 		}
 		else if (!(flags & F_MINUS) && paddingChar == '0') /* Extra padding */
@@ -236,7 +236,7 @@ int write_pointer(char buffer[], int index, int length,
 			buffer[--index] = '0';
 			if (extraCharacter)
 				buffer[--index] = extraCharacter;
-			return (write(1, &buffer[index], length) + write(1, 
+			return (write(1, &buffer[index], length) + write(1,
 						&buffer[3], charIndex - 3));
 		}
 		else if (!(flags & F_MINUS) && paddingChar == ' ') /* Extra character */
@@ -245,7 +245,7 @@ int write_pointer(char buffer[], int index, int length,
 			buffer[--index] = '0';
 			if (extraCharacter)
 				buffer[--index] = extraCharacter;
-			return (write(1, &buffer[3], charIndex - 3) + write(1, 
+			return (write(1, &buffer[3], charIndex - 3) + write(1,
 						&buffer[index], length));
 		}
 		else if (!(flags & F_MINUS) && paddingChar == '0') /* Extra character */
