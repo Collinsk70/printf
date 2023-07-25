@@ -12,7 +12,7 @@
  * @size: Size specifier
  * Return: Number of characters printed
  */
-int print_character(va_list args, char buffer[],
+int print_char(va_list args, char buffer[],
 		int flags, int width, int precision, int size)
 {
 	char c = va_arg(args, int);
@@ -111,7 +111,7 @@ int print_percent(va_list args, char buffer[],
  * @size: Size specifier
  * Return: Number of characters printed
  */
-int print_integer(va_list args, char buffer[],
+int print_int(va_list args, char buffer[],
 		int flags, int width, int precision, int size)
 {
 	int i = BUFF_SIZE - 2;
@@ -189,4 +189,3 @@ int print_binary(va_list args, char buffer[],
 	}
 	return (count);
 }
-
