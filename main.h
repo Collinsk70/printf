@@ -91,19 +91,20 @@ int print_reversed_string(va_list args, char buffer[],
 int print_rot13_string(va_list args, char buffer[],
                                            int flags, int width, int precision, int size);
 
-/* width handler */
+/* write handler */
 int handle_write_char(char c, char buffer[],
 	int flags, int width, int precision, int size);
-int write_number(int is_positive, int ind, char buffer[],
-	int flags, int width, int precision, int size);
-int write_num(int ind, char bff[], int flags, int width, int precision,
-	int length, char padd, char extra_c);
-int write_pointer(char buffer[], int ind, int length,
-	int width, int flags, char padd, char extra_c, int padd_start);
-
-int write_unsgnd(int is_negative, int ind,
-char buffer[],
-	int flags, int width, int precision, int size);
+int write_number(int isNegative, int index, char buffer[],
+		int flags, int width, int precision, int size);
+int write_num(int index, char buffer[],
+			  int flags, int width, int precision,
+			  int length, char paddingChar, char extraCharacter);
+int write_pointer(char buffer[], int index, int length,
+				  int width, int flags,
+				  char paddingChar, char extraCharacter, int paddingStart);
+int write_unsgnd(int isNegative, int index,
+				 char buffer[], int flags,
+				 int width, int precision, int size);
 
 /****************** UTILS ******************/
 int is_printable(char);
