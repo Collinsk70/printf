@@ -23,10 +23,10 @@ int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 		{'d', print_integer},
 		{'b', print_binary},
 		{'u', print_unsigned},
-		{'o', print_octal}, {'x', print_hexa},
+		{'o', print_octal}, {'x', print_hexadecimal},
 		{'X', print_hexa_upper},
 		{'p', print_ptr}, {'S', print_non_printable_chars},
-		{'r', print_reverse}, {'R', print_rot13_string}, {'\0', NULL}
+		{'r', print_reversed_string}, {'R', print_rot13_string}, {'\0', NULL}
 	};
 	
 	for (index = 0; fmt_types[index].fmt != '\0'; index++)
